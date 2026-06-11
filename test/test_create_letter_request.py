@@ -63,6 +63,7 @@ class TestCreateLetterRequest(unittest.TestCase):
                 promo_code = '',
                 on_promo_invalid = 'ignore',
                 on_insufficient_funds = 'reject',
+                dry_run = True,
                 callback_url = ''
             )
         else:

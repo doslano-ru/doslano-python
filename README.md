@@ -121,6 +121,8 @@ Class | Method | HTTP request | Description
 
  - [Balance](docs/Balance.md)
  - [CreateLetterRequest](docs/CreateLetterRequest.md)
+ - [DryRunResult](docs/DryRunResult.md)
+ - [DryRunResultPricing](docs/DryRunResultPricing.md)
  - [FileSource](docs/FileSource.md)
  - [Letter](docs/Letter.md)
  - [LetterClass](docs/LetterClass.md)

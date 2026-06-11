@@ -21,6 +21,7 @@ from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
 from doslano.models.create_letter_request import CreateLetterRequest
+from doslano.models.dry_run_result import DryRunResult
 from doslano.models.letter import Letter
 from doslano.models.letter_status import LetterStatus
 from doslano.models.list_letters200_response import ListLetters200Response
@@ -61,7 +62,7 @@ class LettersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Letter:
+    ) -> DryRunResult:
         """Отправить письмо
 
         Создаёт и (по умолчанию) сразу оплачивает с баланса одно заказное письмо одним запросом. Опись формируется автоматически на нашей стороне.  Требуется scope `letters:write`. 
@@ -103,6 +104,7 @@ class LettersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "Letter",
+            '200': "DryRunResult",
             '400': "Problem",
             '401': "Problem",
             '403': "Problem",
@@ -137,7 +139,7 @@ class LettersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Letter]:
+    ) -> ApiResponse[DryRunResult]:
         """Отправить письмо
 
         Создаёт и (по умолчанию) сразу оплачивает с баланса одно заказное письмо одним запросом. Опись формируется автоматически на нашей стороне.  Требуется scope `letters:write`. 
@@ -179,6 +181,7 @@ class LettersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "Letter",
+            '200': "DryRunResult",
             '400': "Problem",
             '401': "Problem",
             '403': "Problem",
@@ -255,6 +258,7 @@ class LettersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "Letter",
+            '200': "DryRunResult",
             '400': "Problem",
             '401': "Problem",
             '403': "Problem",

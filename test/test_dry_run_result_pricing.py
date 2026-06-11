@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# flake8: noqa
 """
     Doslano Integration API
 
@@ -13,28 +12,50 @@
 """  # noqa: E501
 
 
-# import models into model package
-from doslano.models.balance import Balance
-from doslano.models.create_letter_request import CreateLetterRequest
-from doslano.models.dry_run_result import DryRunResult
+import unittest
+
 from doslano.models.dry_run_result_pricing import DryRunResultPricing
-from doslano.models.file_source import FileSource
-from doslano.models.letter import Letter
-from doslano.models.letter_class import LetterClass
-from doslano.models.letter_content import LetterContent
-from doslano.models.letter_status import LetterStatus
-from doslano.models.list_letters200_response import ListLetters200Response
-from doslano.models.party import Party
-from doslano.models.party_type import PartyType
-from doslano.models.payment_result import PaymentResult
-from doslano.models.pricing import Pricing
-from doslano.models.problem import Problem
-from doslano.models.promo_result import PromoResult
-from doslano.models.recipient import Recipient
-from doslano.models.recipient_input import RecipientInput
-from doslano.models.recipient_status import RecipientStatus
-from doslano.models.sender_input import SenderInput
-from doslano.models.tracking_info import TrackingInfo
-from doslano.models.tracking_info_events_inner import TrackingInfoEventsInner
-from doslano.models.webhook_event import WebhookEvent
-from doslano.models.webhook_event_data import WebhookEventData
+
+class TestDryRunResultPricing(unittest.TestCase):
+    """DryRunResultPricing unit test stubs"""
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def make_instance(self, include_optional) -> DryRunResultPricing:
+        """Test DryRunResultPricing
+            include_optional is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # uncomment below to create an instance of `DryRunResultPricing`
+        """
+        model = DryRunResultPricing()
+        if include_optional:
+            return DryRunResultPricing(
+                subtotal_minor = 56,
+                total_minor = 56,
+                currency = 'RUB',
+                promo = doslano.models.promo_result.PromoResult(
+                    code = '', 
+                    applied = True, 
+                    discount_minor = 56, 
+                    message = '', )
+            )
+        else:
+            return DryRunResultPricing(
+                subtotal_minor = 56,
+                total_minor = 56,
+                currency = 'RUB',
+        )
+        """
+
+    def testDryRunResultPricing(self):
+        """Test DryRunResultPricing"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
+
+if __name__ == '__main__':
+    unittest.main()

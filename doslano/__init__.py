@@ -34,6 +34,8 @@ from doslano.exceptions import ApiException
 # import models into sdk package
 from doslano.models.balance import Balance
 from doslano.models.create_letter_request import CreateLetterRequest
+from doslano.models.dry_run_result import DryRunResult
+from doslano.models.dry_run_result_pricing import DryRunResultPricing
 from doslano.models.file_source import FileSource
 from doslano.models.letter import Letter
 from doslano.models.letter_class import LetterClass

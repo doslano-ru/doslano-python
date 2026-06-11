@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from doslano.models.letter_class import LetterClass
@@ -38,8 +38,9 @@ class CreateLetterRequest(BaseModel):
     promo_code: Optional[StrictStr] = Field(default=None, description="Промокод (опционально).")
     on_promo_invalid: Optional[StrictStr] = Field(default='ignore', description="Что делать, если промокод не применился: `ignore` — отправить без скидки и вернуть пометку в `pricing.promo`; `reject` — отклонить (422). ")
     on_insufficient_funds: Optional[StrictStr] = Field(default='reject', description="Что делать при нехватке средств: `reject` — отклонить (402), письмо не создаётся; `hold` — создать письмо в статусе `awaiting_payment`, оно оплатится автоматически при пополнении баланса. ")
+    dry_run: Optional[StrictBool] = Field(default=False, description="Пробный прогон: запрос проходит ПОЛНУЮ реальную валидацию (ключ, scope, IP, файлы, адреса получателей, промокод) и возвращает расчёт цены — но письмо в итоге не создаётся и средства не списываются. Ответ — `200` со схемой `DryRunResult` (вместо `201`/`Letter`). Ошибки валидации возвращаются теми же кодами, что и при реальной отправке (400/422) — это честный тест интеграции. `Idempotency-Key` при `dry_run` игнорируется; `callback_url` не регистрируется; баланс НЕ проверяется (тестируйте хоть с нулевым балансом — сумма к списанию будет в `pricing.total_minor`). ")
     callback_url: Optional[StrictStr] = Field(default=None, description="HTTPS-URL для колбеков по этому письму. Если не указан — используйте поллинг.")
-    __properties: ClassVar[List[str]] = ["sender", "recipients", "content", "letter_class", "promo_code", "on_promo_invalid", "on_insufficient_funds", "callback_url"]
+    __properties: ClassVar[List[str]] = ["sender", "recipients", "content", "letter_class", "promo_code", "on_promo_invalid", "on_insufficient_funds", "dry_run", "callback_url"]
 
     @field_validator('on_promo_invalid')
     def on_promo_invalid_validate_enum(cls, value):
@@ -132,6 +133,7 @@ class CreateLetterRequest(BaseModel):
             "promo_code": obj.get("promo_code"),
             "on_promo_invalid": obj.get("on_promo_invalid") if obj.get("on_promo_invalid") is not None else 'ignore',
             "on_insufficient_funds": obj.get("on_insufficient_funds") if obj.get("on_insufficient_funds") is not None else 'reject',
+            "dry_run": obj.get("dry_run") if obj.get("dry_run") is not None else False,
             "callback_url": obj.get("callback_url")
         })
         return _obj

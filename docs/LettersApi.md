@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **create_letter**
-> Letter create_letter(create_letter_request, idempotency_key=idempotency_key)
+> DryRunResult create_letter(create_letter_request, idempotency_key=idempotency_key)
 
 Отправить письмо
 
@@ -24,7 +24,7 @@ Method | HTTP request | Description
 ```python
 import doslano
 from doslano.models.create_letter_request import CreateLetterRequest
-from doslano.models.letter import Letter
+from doslano.models.dry_run_result import DryRunResult
 from doslano.rest import ApiException
 from pprint import pprint
 
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Letter**](Letter.md)
+[**DryRunResult**](DryRunResult.md)
 
 ### Authorization
 
@@ -88,6 +88,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **201** | Письмо принято. Тело — состояние письма (включая цену и результат промокода). |  -  |
+**200** | Пробный прогон (&#x60;dry_run: true&#x60;) успешен: запрос валиден, показан расчёт. Письмо не создано, средства не списаны. |  -  |
 **400** | Некорректный запрос. |  -  |
 **401** | Нет/неверный API-ключ, либо IP не в allowlist ключа. |  -  |
 **403** | У ключа нет нужного scope. |  -  |

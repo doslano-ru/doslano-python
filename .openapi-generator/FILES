@@ -8,6 +8,8 @@ docs/Balance.md
 docs/BalanceApi.md
 docs/CreateLetterRequest.md
 docs/DefaultApi.md
+docs/DryRunResult.md
+docs/DryRunResultPricing.md
 docs/FileSource.md
 docs/Letter.md
 docs/LetterClass.md
@@ -41,6 +43,8 @@ doslano/exceptions.py
 doslano/models/__init__.py
 doslano/models/balance.py
 doslano/models/create_letter_request.py
+doslano/models/dry_run_result.py
+doslano/models/dry_run_result_pricing.py
 doslano/models/file_source.py
 doslano/models/letter.py
 doslano/models/letter_class.py
@@ -74,6 +78,8 @@ test/test_balance.py
 test/test_balance_api.py
 test/test_create_letter_request.py
 test/test_default_api.py
+test/test_dry_run_result.py
+test/test_dry_run_result_pricing.py
 test/test_file_source.py
 test/test_letter.py
 test/test_letter_class.py
