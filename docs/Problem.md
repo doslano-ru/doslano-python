@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **title** | **str** |  | [optional] 
 **status** | **int** |  | [optional] 
 **detail** | **str** |  | [optional] 
-**code** | **str** | Машиночитаемый код ошибки (напр. &#x60;insufficient_funds&#x60;, &#x60;validation_failed&#x60;, &#x60;forbidden_scope&#x60;). | [optional] 
+**code** | **str** | Машиночитаемый код ошибки (напр. &#x60;insufficient_funds&#x60;, &#x60;validation_failed&#x60;, &#x60;address_validation_failed&#x60;, &#x60;forbidden_scope&#x60;). | [optional] 
 
 ## Example
 

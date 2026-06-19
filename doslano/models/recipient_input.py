@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from doslano.models.party_type import PartyType
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,11 +28,22 @@ class RecipientInput(BaseModel):
     """
     RecipientInput
     """ # noqa: E501
-    name: StrictStr = Field(description="ФИО или название получателя.")
-    address: StrictStr = Field(description="Адрес получателя (строкой; нормализуется на нашей стороне).")
+    name: Annotated[str, Field(strict=True, max_length=256)] = Field(description="ФИО или название получателя. При resolve_address_by_inn=true ПЕРЕЗАПИСЫВАЕТСЯ наименованием из ЕГРЮЛ.")
+    address: Optional[StrictStr] = Field(default=None, description="Адрес получателя (строкой; нормализуется на нашей стороне). Можно опустить при resolve_address_by_inn=true.")
     party_type: Optional[PartyType] = None
-    inn: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["name", "address", "party_type", "inn"]
+    inn: Optional[Annotated[str, Field(strict=True)]] = None
+    resolve_address_by_inn: Optional[StrictBool] = Field(default=False, description="Авто-резолв адреса по ИНН из ЕГРЮЛ. Работает только для party_type=organization с заданным inn: адрес и наименование берутся из реестра (DaData findById/party, головная организация), address можно не передавать. Если резолв не удался и address не передан — 422 recipient_address_unresolved; флаг без inn или не для organization — 422 recipient_resolve_requires_inn. Если передан и address — он fallback при неудаче резолва.")
+    __properties: ClassVar[List[str]] = ["name", "address", "party_type", "inn", "resolve_address_by_inn"]
+
+    @field_validator('inn')
+    def inn_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[0-9]{10,12}$", value):
+            raise ValueError(r"must validate the regular expression /^[0-9]{10,12}$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,7 +99,8 @@ class RecipientInput(BaseModel):
             "name": obj.get("name"),
             "address": obj.get("address"),
             "party_type": obj.get("party_type"),
-            "inn": obj.get("inn")
+            "inn": obj.get("inn"),
+            "resolve_address_by_inn": obj.get("resolve_address_by_inn") if obj.get("resolve_address_by_inn") is not None else False
         })
         return _obj
 

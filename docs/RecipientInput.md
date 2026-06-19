@@ -5,10 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **str** | ФИО или название получателя. | 
-**address** | **str** | Адрес получателя (строкой; нормализуется на нашей стороне). | 
+**name** | **str** | ФИО или название получателя. При resolve_address_by_inn&#x3D;true ПЕРЕЗАПИСЫВАЕТСЯ наименованием из ЕГРЮЛ. | 
+**address** | **str** | Адрес получателя (строкой; нормализуется на нашей стороне). Можно опустить при resolve_address_by_inn&#x3D;true. | [optional] 
 **party_type** | [**PartyType**](PartyType.md) |  | [optional] 
 **inn** | **str** |  | [optional] 
+**resolve_address_by_inn** | **bool** | Авто-резолв адреса по ИНН из ЕГРЮЛ. Работает только для party_type&#x3D;organization с заданным inn: адрес и наименование берутся из реестра (DaData findById/party, головная организация), address можно не передавать. Если резолв не удался и address не передан — 422 recipient_address_unresolved; флаг без inn или не для organization — 422 recipient_resolve_requires_inn. Если передан и address — он fallback при неудаче резолва. | [optional] [default to False]
 
 ## Example
 

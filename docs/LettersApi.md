@@ -48,7 +48,7 @@ configuration = doslano.Configuration(
 with doslano.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = doslano.LettersApi(api_client)
-    create_letter_request = doslano.CreateLetterRequest() # CreateLetterRequest | 
+    create_letter_request = {"sender":{"name":"ООО «Мой Бизнес»","party_type":"organization","inn":"7710000001","address":"101000, г Москва, Мясницкая ул, д 10","email":"claims@mybiz.example"},"recipients":[{"name":"ООО «Ромашка»","party_type":"organization","inn":"7707083893","resolve_address_by_inn":true},{"name":"Иванов Иван Иванович","party_type":"individual","address":"190000, г Санкт-Петербург, Невский пр-кт, д 1, кв 5"}],"content":{"main_file":{"url":"https://files.example.com/claim.pdf","filename":"Претензия.pdf"}}} # CreateLetterRequest | 
     idempotency_key = 'idempotency_key_example' # str | Ключ идемпотентности. Повтор с тем же ключом в течение TTL вернёт исходный результат, не создавая письмо повторно. (optional)
 
     try:
@@ -93,7 +93,7 @@ Name | Type | Description  | Notes
 **401** | Нет/неверный API-ключ, либо IP не в allowlist ключа. |  -  |
 **403** | У ключа нет нужного scope. |  -  |
 **402** | Недостаточно средств на балансе (при &#x60;on_insufficient_funds&#x3D;reject&#x60;). |  -  |
-**422** | Ошибка валидации данных письма (адрес, файл, получатели и т.п.). |  -  |
+**422** | Ошибка валидации данных письма (адрес, файл, получатели и т.п.). В частности &#x60;code: address_validation_failed&#x60; — адрес/ФИО не прошли preflight-проверку Почты России: письмо отменено, в &#x60;detail&#x60; перечислены стороны и поля; исправьте данные и создайте письмо заново. Коды &#x60;recipient_address_unresolved&#x60; и &#x60;recipient_resolve_requires_inn&#x60; относятся к опции &#x60;resolve_address_by_inn&#x60; (см. RecipientInput). |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

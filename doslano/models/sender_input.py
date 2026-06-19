@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from doslano.models.party_type import PartyType
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,12 +28,22 @@ class SenderInput(BaseModel):
     """
     SenderInput
     """ # noqa: E501
-    name: StrictStr = Field(description="ФИО или название отправителя.")
+    name: Annotated[str, Field(strict=True, max_length=256)] = Field(description="ФИО или название отправителя.")
     address: StrictStr = Field(description="Адрес отправителя (строкой; нормализуется на нашей стороне).")
     email: Optional[StrictStr] = None
     party_type: Optional[PartyType] = None
-    inn: Optional[StrictStr] = Field(default=None, description="ИНН (для юр. лиц/ИП).")
+    inn: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="ИНН (для юр. лиц/ИП).")
     __properties: ClassVar[List[str]] = ["name", "address", "email", "party_type", "inn"]
+
+    @field_validator('inn')
+    def inn_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[0-9]{10,12}$", value):
+            raise ValueError(r"must validate the regular expression /^[0-9]{10,12}$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

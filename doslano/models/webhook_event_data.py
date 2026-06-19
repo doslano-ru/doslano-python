@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -32,7 +32,8 @@ class WebhookEventData(BaseModel):
     shipment_number: Optional[StrictStr] = None
     tracking_number: Optional[StrictStr] = None
     error: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["letter_id", "recipient_id", "status", "shipment_number", "tracking_number", "error"]
+    amount_minor: Optional[StrictInt] = Field(default=None, description="Фактически списанная стоимость отправления ЭТОМУ получателю, в копейках (доля дисконтированного тотала письма с учётом промокода). Присутствует только в `recipient.sent` — отправление реально ушло и оплачено. В `recipient.failed` отсутствует: при провале сумма возвращается на баланс.")
+    __properties: ClassVar[List[str]] = ["letter_id", "recipient_id", "status", "shipment_number", "tracking_number", "error", "amount_minor"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,7 +91,8 @@ class WebhookEventData(BaseModel):
             "status": obj.get("status"),
             "shipment_number": obj.get("shipment_number"),
             "tracking_number": obj.get("tracking_number"),
-            "error": obj.get("error")
+            "error": obj.get("error"),
+            "amount_minor": obj.get("amount_minor")
         })
         return _obj
 

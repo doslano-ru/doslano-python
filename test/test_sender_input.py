@@ -39,7 +39,7 @@ class TestSenderInput(unittest.TestCase):
                 address = '',
                 email = '',
                 party_type = 'individual',
-                inn = ''
+                inn = '480728880015'
             )
         else:
             return SenderInput(

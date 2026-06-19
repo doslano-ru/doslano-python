@@ -38,12 +38,12 @@ class TestRecipientInput(unittest.TestCase):
                 name = '',
                 address = '',
                 party_type = 'individual',
-                inn = ''
+                inn = '480728880015',
+                resolve_address_by_inn = True
             )
         else:
             return RecipientInput(
                 name = '',
-                address = '',
         )
         """
 

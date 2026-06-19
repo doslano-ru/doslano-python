@@ -30,7 +30,7 @@ class Problem(BaseModel):
     title: Optional[StrictStr] = None
     status: Optional[StrictInt] = None
     detail: Optional[StrictStr] = None
-    code: Optional[StrictStr] = Field(default=None, description="Машиночитаемый код ошибки (напр. `insufficient_funds`, `validation_failed`, `forbidden_scope`).")
+    code: Optional[StrictStr] = Field(default=None, description="Машиночитаемый код ошибки (напр. `insufficient_funds`, `validation_failed`, `address_validation_failed`, `forbidden_scope`).")
     __properties: ClassVar[List[str]] = ["type", "title", "status", "detail", "code"]
 
     model_config = ConfigDict(

@@ -40,13 +40,14 @@ class TestCreateLetterRequest(unittest.TestCase):
                     address = '', 
                     email = '', 
                     party_type = 'individual', 
-                    inn = '', ),
+                    inn = '480728880015', ),
                 recipients = [
                     doslano.models.recipient_input.RecipientInput(
                         name = '', 
                         address = '', 
                         party_type = 'individual', 
-                        inn = '', )
+                        inn = '480728880015', 
+                        resolve_address_by_inn = True, )
                     ],
                 content = doslano.models.letter_content.LetterContent(
                     main_file = doslano.models.file_source.FileSource(
@@ -73,7 +74,8 @@ class TestCreateLetterRequest(unittest.TestCase):
                         name = '', 
                         address = '', 
                         party_type = 'individual', 
-                        inn = '', )
+                        inn = '480728880015', 
+                        resolve_address_by_inn = True, )
                     ],
                 content = doslano.models.letter_content.LetterContent(
                     main_file = doslano.models.file_source.FileSource(

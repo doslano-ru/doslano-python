@@ -40,7 +40,8 @@ class TestWebhookEventData(unittest.TestCase):
                 status = '',
                 shipment_number = '',
                 tracking_number = '',
-                error = ''
+                error = '',
+                amount_minor = 56
             )
         else:
             return WebhookEventData(
