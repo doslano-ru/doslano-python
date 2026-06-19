@@ -31,7 +31,7 @@ class RecipientInput(BaseModel):
     name: Annotated[str, Field(strict=True, max_length=256)] = Field(description="ФИО или название получателя. При resolve_address_by_inn=true ПЕРЕЗАПИСЫВАЕТСЯ наименованием из ЕГРЮЛ.")
     address: Optional[StrictStr] = Field(default=None, description="Адрес получателя (строкой; нормализуется на нашей стороне). Можно опустить при resolve_address_by_inn=true.")
     party_type: Optional[PartyType] = None
-    inn: Optional[Annotated[str, Field(strict=True)]] = None
+    inn: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="ИНН (10 цифр).")
     resolve_address_by_inn: Optional[StrictBool] = Field(default=False, description="Авто-резолв адреса по ИНН из ЕГРЮЛ. Работает только для party_type=organization с заданным inn: адрес и наименование берутся из реестра (DaData findById/party, головная организация), address можно не передавать. Если резолв не удался и address не передан — 422 recipient_address_unresolved; флаг без inn или не для organization — 422 recipient_resolve_requires_inn. Если передан и address — он fallback при неудаче резолва.")
     __properties: ClassVar[List[str]] = ["name", "address", "party_type", "inn", "resolve_address_by_inn"]
 
@@ -41,8 +41,8 @@ class RecipientInput(BaseModel):
         if value is None:
             return value
 
-        if not re.match(r"^[0-9]{10,12}$", value):
-            raise ValueError(r"must validate the regular expression /^[0-9]{10,12}$/")
+        if not re.match(r"^[0-9]{10}$", value):
+            raise ValueError(r"must validate the regular expression /^[0-9]{10}$/")
         return value
 
     model_config = ConfigDict(

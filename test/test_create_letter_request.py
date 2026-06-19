@@ -46,7 +46,7 @@ class TestCreateLetterRequest(unittest.TestCase):
                         name = '', 
                         address = '', 
                         party_type = 'individual', 
-                        inn = '480728880015', 
+                        inn = '0480728880', 
                         resolve_address_by_inn = True, )
                     ],
                 content = doslano.models.letter_content.LetterContent(
@@ -74,7 +74,7 @@ class TestCreateLetterRequest(unittest.TestCase):
                         name = '', 
                         address = '', 
                         party_type = 'individual', 
-                        inn = '480728880015', 
+                        inn = '0480728880', 
                         resolve_address_by_inn = True, )
                     ],
                 content = doslano.models.letter_content.LetterContent(
