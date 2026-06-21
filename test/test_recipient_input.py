@@ -39,6 +39,7 @@ class TestRecipientInput(unittest.TestCase):
                 address = '',
                 party_type = 'individual',
                 inn = '0480728880',
+                email = '',
                 resolve_address_by_inn = True
             )
         else:

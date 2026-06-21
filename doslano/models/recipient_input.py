@@ -32,8 +32,9 @@ class RecipientInput(BaseModel):
     address: Optional[StrictStr] = Field(default=None, description="Адрес получателя (строкой; нормализуется на нашей стороне). Можно опустить при resolve_address_by_inn=true.")
     party_type: Optional[PartyType] = None
     inn: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="ИНН (10 цифр).")
+    email: Optional[Annotated[str, Field(strict=True, max_length=254)]] = Field(default=None, description="Email получателя для уведомления-копии (опционально). После отправки письма получателю на этот адрес приходит письмо со ссылкой на электронную версию (страница /receive). Пустой/опущен — уведомление не шлётся; адрес указывает отправитель и отвечает за корректность.")
     resolve_address_by_inn: Optional[StrictBool] = Field(default=False, description="Авто-резолв адреса по ИНН из ЕГРЮЛ. Работает только для party_type=organization с заданным inn: адрес и наименование берутся из реестра (DaData findById/party, головная организация), address можно не передавать. Если резолв не удался и address не передан — 422 recipient_address_unresolved; флаг без inn или не для organization — 422 recipient_resolve_requires_inn. Если передан и address — он fallback при неудаче резолва.")
-    __properties: ClassVar[List[str]] = ["name", "address", "party_type", "inn", "resolve_address_by_inn"]
+    __properties: ClassVar[List[str]] = ["name", "address", "party_type", "inn", "email", "resolve_address_by_inn"]
 
     @field_validator('inn')
     def inn_validate_regular_expression(cls, value):
@@ -100,6 +101,7 @@ class RecipientInput(BaseModel):
             "address": obj.get("address"),
             "party_type": obj.get("party_type"),
             "inn": obj.get("inn"),
+            "email": obj.get("email"),
             "resolve_address_by_inn": obj.get("resolve_address_by_inn") if obj.get("resolve_address_by_inn") is not None else False
         })
         return _obj
