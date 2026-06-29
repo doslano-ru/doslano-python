@@ -42,7 +42,10 @@ class TestRecipient(unittest.TestCase):
                 shipment_number = '',
                 tracking_number = '',
                 price_minor = 56,
-                error = ''
+                error = '',
+                receipt_pdf = '',
+                receipt_url = '',
+                inventory_pdf = ''
             )
         else:
             return Recipient(

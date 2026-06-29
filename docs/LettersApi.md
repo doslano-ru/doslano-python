@@ -5,6 +5,8 @@ All URIs are relative to *https://integration.doslano.ru*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**create_letter**](LettersApi.md#create_letter) | **POST** /v1/letters | Отправить письмо
+[**download_recipient_inventory_pdf**](LettersApi.md#download_recipient_inventory_pdf) | **GET** /v1/letters/{id}/recipients/{recipient_id}/inventory.pdf | PDF описи вложения получателя
+[**download_recipient_receipt_pdf**](LettersApi.md#download_recipient_receipt_pdf) | **GET** /v1/letters/{id}/recipients/{recipient_id}/receipt.pdf | PDF фискального чека получателя
 [**get_letter**](LettersApi.md#get_letter) | **GET** /v1/letters/{id} | Статус письма
 [**get_recipient_tracking**](LettersApi.md#get_recipient_tracking) | **GET** /v1/letters/{id}/recipients/{recipient_id}/tracking | Трек-события получателя
 [**list_letters**](LettersApi.md#list_letters) | **GET** /v1/letters | Список писем
@@ -94,6 +96,170 @@ Name | Type | Description  | Notes
 **403** | У ключа нет нужного scope. |  -  |
 **402** | Недостаточно средств на балансе (при &#x60;on_insufficient_funds&#x3D;reject&#x60;). |  -  |
 **422** | Ошибка валидации данных письма (адрес, файл, получатели и т.п.). В частности &#x60;code: address_validation_failed&#x60; — адрес/ФИО не прошли preflight-проверку Почты России: письмо отменено, в &#x60;detail&#x60; перечислены стороны и поля; исправьте данные и создайте письмо заново. Коды &#x60;recipient_address_unresolved&#x60; и &#x60;recipient_resolve_requires_inn&#x60; относятся к опции &#x60;resolve_address_by_inn&#x60; (см. RecipientInput). |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **download_recipient_inventory_pdf**
+> bytearray download_recipient_inventory_pdf(id, recipient_id)
+
+PDF описи вложения получателя
+
+Скачать PDF описи вложения (форма 107, версия отправителя) по отправлению конкретному получателю. Доступен после передачи в Почту (получатель в статусе `sent`/`delivered`); иначе `404`. Требуется scope `letters:read`.
+
+### Example
+
+* Bearer (API key) Authentication (apiKey):
+
+```python
+import doslano
+from doslano.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://integration.doslano.ru
+# See configuration.py for a list of all supported configuration parameters.
+configuration = doslano.Configuration(
+    host = "https://integration.doslano.ru"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (API key): apiKey
+configuration = doslano.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with doslano.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = doslano.LettersApi(api_client)
+    id = 'id_example' # str | Идентификатор письма.
+    recipient_id = 'recipient_id_example' # str | 
+
+    try:
+        # PDF описи вложения получателя
+        api_response = api_instance.download_recipient_inventory_pdf(id, recipient_id)
+        print("The response of LettersApi->download_recipient_inventory_pdf:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling LettersApi->download_recipient_inventory_pdf: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Идентификатор письма. | 
+ **recipient_id** | **str**|  | 
+
+### Return type
+
+**bytearray**
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/pdf, application/problem+json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | PDF описи вложения. |  -  |
+**401** | Нет/неверный API-ключ, либо IP не в allowlist ключа. |  -  |
+**403** | У ключа нет нужного scope. |  -  |
+**404** | Ресурс не найден (или не принадлежит аккаунту). |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **download_recipient_receipt_pdf**
+> bytearray download_recipient_receipt_pdf(id, recipient_id)
+
+PDF фискального чека получателя
+
+Скачать PDF фискального чека (54-ФЗ) по отправлению конкретному получателю. Доступен, когда чек пробит и его PDF сохранён у нас (получатель в статусе `sent`/`delivered`); иначе `404`. Требуется scope `letters:read`.
+
+### Example
+
+* Bearer (API key) Authentication (apiKey):
+
+```python
+import doslano
+from doslano.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://integration.doslano.ru
+# See configuration.py for a list of all supported configuration parameters.
+configuration = doslano.Configuration(
+    host = "https://integration.doslano.ru"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (API key): apiKey
+configuration = doslano.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with doslano.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = doslano.LettersApi(api_client)
+    id = 'id_example' # str | Идентификатор письма.
+    recipient_id = 'recipient_id_example' # str | 
+
+    try:
+        # PDF фискального чека получателя
+        api_response = api_instance.download_recipient_receipt_pdf(id, recipient_id)
+        print("The response of LettersApi->download_recipient_receipt_pdf:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling LettersApi->download_recipient_receipt_pdf: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Идентификатор письма. | 
+ **recipient_id** | **str**|  | 
+
+### Return type
+
+**bytearray**
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/pdf, application/problem+json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | PDF фискального чека. |  -  |
+**401** | Нет/неверный API-ключ, либо IP не в allowlist ключа. |  -  |
+**403** | У ключа нет нужного scope. |  -  |
+**404** | Ресурс не найден (или не принадлежит аккаунту). |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

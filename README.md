@@ -112,6 +112,8 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *BalanceApi* | [**get_balance**](docs/BalanceApi.md#get_balance) | **GET** /v1/balance | Баланс аккаунта
 *LettersApi* | [**create_letter**](docs/LettersApi.md#create_letter) | **POST** /v1/letters | Отправить письмо
+*LettersApi* | [**download_recipient_inventory_pdf**](docs/LettersApi.md#download_recipient_inventory_pdf) | **GET** /v1/letters/{id}/recipients/{recipient_id}/inventory.pdf | PDF описи вложения получателя
+*LettersApi* | [**download_recipient_receipt_pdf**](docs/LettersApi.md#download_recipient_receipt_pdf) | **GET** /v1/letters/{id}/recipients/{recipient_id}/receipt.pdf | PDF фискального чека получателя
 *LettersApi* | [**get_letter**](docs/LettersApi.md#get_letter) | **GET** /v1/letters/{id} | Статус письма
 *LettersApi* | [**get_recipient_tracking**](docs/LettersApi.md#get_recipient_tracking) | **GET** /v1/letters/{id}/recipients/{recipient_id}/tracking | Трек-события получателя
 *LettersApi* | [**list_letters**](docs/LettersApi.md#list_letters) | **GET** /v1/letters | Список писем

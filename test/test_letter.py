@@ -53,7 +53,10 @@ class TestLetter(unittest.TestCase):
                         shipment_number = '', 
                         tracking_number = '', 
                         price_minor = 56, 
-                        error = '', )
+                        error = '', 
+                        receipt_pdf = '', 
+                        receipt_url = '', 
+                        inventory_pdf = '', )
                     ],
                 pricing = doslano.models.pricing.Pricing(
                     total_minor = 56, 
@@ -83,7 +86,10 @@ class TestLetter(unittest.TestCase):
                         shipment_number = '', 
                         tracking_number = '', 
                         price_minor = 56, 
-                        error = '', )
+                        error = '', 
+                        receipt_pdf = '', 
+                        receipt_url = '', 
+                        inventory_pdf = '', )
                     ],
                 pricing = doslano.models.pricing.Pricing(
                     total_minor = 56, 

@@ -33,6 +33,20 @@ class TestLettersApi(unittest.TestCase):
         """
         pass
 
+    def test_download_recipient_inventory_pdf(self) -> None:
+        """Test case for download_recipient_inventory_pdf
+
+        PDF описи вложения получателя
+        """
+        pass
+
+    def test_download_recipient_receipt_pdf(self) -> None:
+        """Test case for download_recipient_receipt_pdf
+
+        PDF фискального чека получателя
+        """
+        pass
+
     def test_get_letter(self) -> None:
         """Test case for get_letter
 

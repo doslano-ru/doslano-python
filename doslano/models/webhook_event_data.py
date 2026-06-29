@@ -33,7 +33,10 @@ class WebhookEventData(BaseModel):
     tracking_number: Optional[StrictStr] = None
     error: Optional[StrictStr] = None
     amount_minor: Optional[StrictInt] = Field(default=None, description="Фактически списанная стоимость отправления ЭТОМУ получателю, в копейках (доля дисконтированного тотала письма с учётом промокода). Присутствует только в `recipient.sent` — отправление реально ушло и оплачено. В `recipient.failed` отсутствует: при провале сумма возвращается на баланс.")
-    __properties: ClassVar[List[str]] = ["letter_id", "recipient_id", "status", "shipment_number", "tracking_number", "error", "amount_minor"]
+    receipt_pdf: Optional[StrictStr] = Field(default=None, description="Ссылка на скачивание PDF фискального чека (54-ФЗ) через наш API. Колбэк `recipient.sent` уходит ПОСЛЕ готовности чека, поэтому поле в нём присутствует (вместе с `receipt_url`).")
+    receipt_url: Optional[StrictStr] = Field(default=None, description="Ссылка на фискальный чек на сайте ОФД (1-ОФД). Может присутствовать и без `receipt_pdf` (link_only — наш PDF недоступен).")
+    inventory_pdf: Optional[StrictStr] = Field(default=None, description="Ссылка на скачивание PDF описи вложения (форма 107, версия отправителя) через наш API. Присутствует в `recipient.sent` и `recipient.delivered`, когда опись сформирована.")
+    __properties: ClassVar[List[str]] = ["letter_id", "recipient_id", "status", "shipment_number", "tracking_number", "error", "amount_minor", "receipt_pdf", "receipt_url", "inventory_pdf"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -92,7 +95,10 @@ class WebhookEventData(BaseModel):
             "shipment_number": obj.get("shipment_number"),
             "tracking_number": obj.get("tracking_number"),
             "error": obj.get("error"),
-            "amount_minor": obj.get("amount_minor")
+            "amount_minor": obj.get("amount_minor"),
+            "receipt_pdf": obj.get("receipt_pdf"),
+            "receipt_url": obj.get("receipt_url"),
+            "inventory_pdf": obj.get("inventory_pdf")
         })
         return _obj
 

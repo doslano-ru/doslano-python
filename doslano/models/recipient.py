@@ -35,7 +35,10 @@ class Recipient(BaseModel):
     tracking_number: Optional[StrictStr] = Field(default=None, description="Трек-номер Почты России (ШПИ). Появляется после регистрации отправления.")
     price_minor: Optional[StrictInt] = Field(default=None, description="Стоимость отправления этому получателю, в копейках.")
     error: Optional[StrictStr] = Field(default=None, description="Причина ошибки (для `failed`).")
-    __properties: ClassVar[List[str]] = ["id", "name", "address", "status", "shipment_number", "tracking_number", "price_minor", "error"]
+    receipt_pdf: Optional[StrictStr] = Field(default=None, description="Ссылка на скачивание PDF фискального чека (54-ФЗ) этому получателю через наш API (см. `GET /v1/letters/{id}/recipients/{recipient_id}/receipt.pdf`). Присутствует, только когда чек пробит и его PDF сохранён у нас (получатель в статусе `sent`/`delivered`).")
+    receipt_url: Optional[StrictStr] = Field(default=None, description="Ссылка на фискальный чек на сайте ОФД (1-ОФД). Присутствует, когда чек пробит (получатель `sent`/`delivered`). Может присутствовать и без `receipt_pdf` — когда наш PDF недоступен (link_only).")
+    inventory_pdf: Optional[StrictStr] = Field(default=None, description="Ссылка на скачивание PDF описи вложения (форма 107, версия отправителя) через наш API (см. `GET /v1/letters/{id}/recipients/{recipient_id}/inventory.pdf`). Присутствует, когда опись сформирована и отправление передано в Почту (получатель в статусе `sent`/`delivered`).")
+    __properties: ClassVar[List[str]] = ["id", "name", "address", "status", "shipment_number", "tracking_number", "price_minor", "error", "receipt_pdf", "receipt_url", "inventory_pdf"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -95,7 +98,10 @@ class Recipient(BaseModel):
             "shipment_number": obj.get("shipment_number"),
             "tracking_number": obj.get("tracking_number"),
             "price_minor": obj.get("price_minor"),
-            "error": obj.get("error")
+            "error": obj.get("error"),
+            "receipt_pdf": obj.get("receipt_pdf"),
+            "receipt_url": obj.get("receipt_url"),
+            "inventory_pdf": obj.get("inventory_pdf")
         })
         return _obj
 

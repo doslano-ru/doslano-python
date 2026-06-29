@@ -45,7 +45,10 @@ class TestWebhookEvent(unittest.TestCase):
                     shipment_number = '', 
                     tracking_number = '', 
                     error = '', 
-                    amount_minor = 56, )
+                    amount_minor = 56, 
+                    receipt_pdf = '', 
+                    receipt_url = '', 
+                    inventory_pdf = '', )
             )
         else:
             return WebhookEvent(
@@ -59,7 +62,10 @@ class TestWebhookEvent(unittest.TestCase):
                     shipment_number = '', 
                     tracking_number = '', 
                     error = '', 
-                    amount_minor = 56, ),
+                    amount_minor = 56, 
+                    receipt_pdf = '', 
+                    receipt_url = '', 
+                    inventory_pdf = '', ),
         )
         """
 
