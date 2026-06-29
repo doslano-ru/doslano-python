@@ -26,13 +26,13 @@ from typing_extensions import Self
 
 class SenderInput(BaseModel):
     """
-    SenderInput
+    Отправитель. Любое поле можно опустить — оно берётся из профиля аккаунта (ЛК). Например, передайте только `email`, чтобы переопределить почту плательщика для кассового чека, а имя/адрес оставить из профиля. Если `sender` не передан целиком — весь отправитель берётся из профиля.
     """ # noqa: E501
-    name: Annotated[str, Field(strict=True, max_length=256)] = Field(description="ФИО или название отправителя.")
-    address: StrictStr = Field(description="Адрес отправителя (строкой; нормализуется на нашей стороне).")
-    email: Optional[StrictStr] = None
+    name: Optional[Annotated[str, Field(strict=True, max_length=256)]] = Field(default=None, description="ФИО или название отправителя. Не указано — из профиля ЛК.")
+    address: Optional[StrictStr] = Field(default=None, description="Адрес отправителя (строкой; нормализуется). Не указан — из профиля ЛК.")
+    email: Optional[StrictStr] = Field(default=None, description="Email отправителя (плательщика) для кассового чека. Не указан — из профиля ЛК.")
     party_type: Optional[PartyType] = None
-    inn: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="ИНН (для юр. лиц/ИП).")
+    inn: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="ИНН (для юр. лиц/ИП). Не указан — из профиля ЛК.")
     __properties: ClassVar[List[str]] = ["name", "address", "email", "party_type", "inn"]
 
     @field_validator('inn')

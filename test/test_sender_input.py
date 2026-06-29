@@ -43,8 +43,6 @@ class TestSenderInput(unittest.TestCase):
             )
         else:
             return SenderInput(
-                name = '',
-                address = '',
         )
         """
 
